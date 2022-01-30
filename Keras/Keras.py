@@ -1,3 +1,7 @@
+""""
+Before Run Remember to comment out unnecessary SAVING and LOADING functions in the code below.
+"""
+
 # 1. load data
 # 2. split data
 # 3. normalize data
@@ -255,16 +259,13 @@ cm = confusion_matrix(y_true=test_labels, y_pred=rounded_predictions)
 cm_plot_labels = ['No side effects', 'Have side effects']
 plot_confusion_matrix(cm=cm, classes=cm_plot_labels, title='Normalized confusion matrix')
 
-
 # Step 9. Classification Report
 # In here we have "Labeled" data, So we see the actual labels and the predicted labels in the classification report
 
 
 from sklearn.metrics import classification_report
 
-
 print(classification_report(y_true=test_labels, y_pred=rounded_predictions))
-
 
 """ I Have No idea Whta they are
 Auto came by Copilot for saving the model
@@ -305,21 +306,17 @@ with open('label_encoder.pkl', 'wb') as f:
 #     - Training configuration (loss, optimizer)
 #     - The state of the optimizer, allowing to resume training exactly where you left off.
 
-import os.path
-
-if os.path.isfile('./save-model-keras/model.h5'):
-    model.save('./save-model-keras/model.h5')
+model.save('save-model-keras/model.h5')
 
 # Load the model
 from keras.models import load_model
-new_model = load_model('./save-model-keras/model.h5')
+
+new_model = load_model('save-model-keras/model.h5')
 
 # Check the model
 new_model.summary()
 new_model.get_weights()
 print(new_model.optimizer)
-
-
 
 # Step 10.2 - Saving as JSON
 
@@ -329,10 +326,12 @@ print(json_string)
 
 # Model Reconstruction from JSON file
 from keras.models import model_from_json
+
 model_architecture = model_from_json(json_string)
 
 model_architecture.summary()
 
+"""
 # Step 10.3 - Saving as YAML
 yaml_string = model.to_yaml()
 
@@ -343,22 +342,22 @@ from keras.models import model_from_yaml
 model_architecture_from_YAML = model_from_yaml(yaml_string)
 
 model_architecture_from_YAML.summary()
-
+"""
 
 # Step 10.4 - Saving weights
 
-import os.path
-if os.path.isfile('./save-model-keras/model_weights.h5'):
-    model.save_weights('./save-model-keras/model_weights.h5')
+# if os.path.isfile('save-model-keras/model_weights.h5'):
+# [TAB] model.save_weights('./save-model-keras/model_weights.h5')
+model.save_weights('./save-model-keras/model_weights.h5')
 
 # Create Model Architecture
 model2 = Sequential([
-    Dense(units = 16, input_shape= (1,),activation = 'relu'),
-    Dense(units = 32, activation = 'relu'),
-    Dense(units = 2, activation = 'softmax')
+    Dense(units=16, input_shape=(1,), activation='relu'),
+    Dense(units=32, activation='relu'),
+    Dense(units=2, activation='softmax')
 ])
 
 # Load the weights
-model2.load_weights('./save-model-keras/model_weights.h5')
+# model2.load_weights('./save-model-keras/model_weights.h5')
 
-model2.get_weights()
+# model2.get_weights()
