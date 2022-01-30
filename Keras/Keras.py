@@ -254,3 +254,111 @@ cm = confusion_matrix(y_true=test_labels, y_pred=rounded_predictions)
 
 cm_plot_labels = ['No side effects', 'Have side effects']
 plot_confusion_matrix(cm=cm, classes=cm_plot_labels, title='Normalized confusion matrix')
+
+
+# Step 9. Classification Report
+# In here we have "Labeled" data, So we see the actual labels and the predicted labels in the classification report
+
+
+from sklearn.metrics import classification_report
+
+
+print(classification_report(y_true=test_labels, y_pred=rounded_predictions))
+
+
+""" I Have No idea Whta they are
+Auto came by Copilot for saving the model
+from sklearn.externals import joblib
+
+# Step 10.1 - Save the model to a pickle file
+
+
+import pickle
+
+clf = RandomForestClassifier(n_estimators=100)
+
+with open('model.pkl', 'wb') as f:
+    pickle.dump(clf, f)
+    
+    
+# Step 10.2 - Save the preprocessor to a pickle file
+
+
+with open('preprocessor.pkl', 'wb') as f:
+    pickle.dump(preprocessor, f)
+    
+    
+# Step 10.3 - Save the label encoder to a pickle file
+
+
+with open('label_encoder.pkl', 'wb') as f:
+    pickle.dump(label_encoder, f)
+    
+"""
+
+# Step 10. Save and Loading the model
+
+# Step 10.1 - Saving the Model
+# This save function saves:
+#     - The architecture of the model, allowing to re-create the model
+#     - The weights of the model
+#     - Training configuration (loss, optimizer)
+#     - The state of the optimizer, allowing to resume training exactly where you left off.
+
+import os.path
+
+if os.path.isfile('./save-model-keras/model.h5'):
+    model.save('./save-model-keras/model.h5')
+
+# Load the model
+from keras.models import load_model
+new_model = load_model('./save-model-keras/model.h5')
+
+# Check the model
+new_model.summary()
+new_model.get_weights()
+print(new_model.optimizer)
+
+
+
+# Step 10.2 - Saving as JSON
+
+json_string = model.to_json()
+
+print(json_string)
+
+# Model Reconstruction from JSON file
+from keras.models import model_from_json
+model_architecture = model_from_json(json_string)
+
+model_architecture.summary()
+
+# Step 10.3 - Saving as YAML
+yaml_string = model.to_yaml()
+
+print(yaml_string)
+
+# Model Reconstruction from YAML file
+from keras.models import model_from_yaml
+model_architecture_from_YAML = model_from_yaml(yaml_string)
+
+model_architecture_from_YAML.summary()
+
+
+# Step 10.4 - Saving weights
+
+import os.path
+if os.path.isfile('./save-model-keras/model_weights.h5'):
+    model.save_weights('./save-model-keras/model_weights.h5')
+
+# Create Model Architecture
+model2 = Sequential([
+    Dense(units = 16, input_shape= (1,),activation = 'relu'),
+    Dense(units = 32, activation = 'relu'),
+    Dense(units = 2, activation = 'softmax')
+])
+
+# Load the weights
+model2.load_weights('./save-model-keras/model_weights.h5')
+
+model2.get_weights()
